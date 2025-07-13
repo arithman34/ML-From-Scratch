@@ -3,7 +3,7 @@ from src.utils.criterions import Gini, SquaredError
 from src.supervised_learning.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn.tree import DecisionTreeClassifier as SklearnDecisionTreeClassifier, DecisionTreeRegressor as SklearnDecisionTreeRegressor
 from sklearn.metrics import accuracy_score
-from tests.test_data import get_classification_data, get_regression_data
+from src.data.data_generator import get_classification_data, get_regression_data
 import numpy as np
 
 

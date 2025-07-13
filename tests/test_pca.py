@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 from sklearn.decomposition import PCA as SklearnPCA
-from tests.test_data import get_classification_data
+from src.data.data_generator import get_classification_data
 from src.unsupervised_learning.pca import PCA
 
 

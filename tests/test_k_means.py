@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 from sklearn.metrics import adjusted_rand_score
 from src.unsupervised_learning.k_means import KMeans
-from tests.test_data import get_clustering_data
+from src.data.data_generator import get_clustering_data
 
 
 class TestKMeans(unittest.TestCase):

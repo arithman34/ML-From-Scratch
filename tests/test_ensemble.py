@@ -1,14 +1,15 @@
 import unittest
 from src.supervised_learning.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.ensemble import RandomForestClassifier as SklearnRandomForestClassifier, RandomForestRegressor as SklearnRandomForestRegressor
 from sklearn.metrics import accuracy_score
-from tests.test_data import get_classification_data, get_regression_data
+from src.data.data_generator import get_classification_data, get_regression_data
 import numpy as np
 
 
 class TestRandomForestClassifier(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.X_train, cls.X_test, cls.y_train, cls.y_test = get_classification_data()
+        cls.X_train, cls.X_test, cls.y_train, cls.y_test = get_classification_data(num_samples=10000, num_classes=10)
 
     def test_initialization(self):
         clf = RandomForestClassifier(n_estimators=1, max_depth=1, min_samples_split=2, criterion="gini")
@@ -25,19 +26,25 @@ class TestRandomForestClassifier(unittest.TestCase):
         self.assertEqual(len(clf.trees), 10, msg="Trees should equal to number of estimators")
 
     def test_predict(self):
-        clf = RandomForestClassifier(n_estimators=100, max_depth=100, criterion="gini", max_features="sqrt", random_state=42)
+        clf = RandomForestClassifier(n_estimators=10, max_depth=100, criterion="gini", max_features="sqrt", random_state=42)
         clf.fit(self.X_train, self.y_train)
         y_pred = clf.predict(self.X_test)
 
-        acc_custom = accuracy_score(self.y_test, y_pred)
+        sklearn_clf = SklearnRandomForestClassifier(n_estimators=10, max_depth=100, criterion="gini", max_features="sqrt", random_state=42)
+        sklearn_clf.fit(self.X_train, self.y_train)
+        sklearn_y_pred = sklearn_clf.predict(self.X_test)
 
-        self.assertGreaterEqual(acc_custom, 0.9, f"Accuracy should be higher, got {acc_custom:.2f}")
+        acc_custom = accuracy_score(self.y_test, y_pred)
+        acc_sklearn = accuracy_score(self.y_test, sklearn_y_pred)
+        abs_error = np.abs(acc_custom - acc_sklearn)
+
+        self.assertLessEqual(abs_error, 0.05, f"MAE mismatch too high got {acc_custom:.4f} and {acc_sklearn:.4f} for base")
 
 
 class TestRandomForestRegressor(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.X_train, cls.X_test, cls.y_train, cls.y_test = get_regression_data()
+        cls.X_train, cls.X_test, cls.y_train, cls.y_test = get_regression_data(num_samples=1000)
 
     def test_initialization(self):
         reg = RandomForestRegressor(n_estimators=1, max_depth=1, min_samples_split=2, criterion="squared_error")
@@ -58,9 +65,19 @@ class TestRandomForestRegressor(unittest.TestCase):
         reg.fit(self.X_train, self.y_train)
         y_pred = reg.predict(self.X_test)
 
-        mae_custom = np.mean(abs(y_pred - self.y_test))  # Mean Absolute Error (custom)
+        sklearn_reg = SklearnRandomForestRegressor(n_estimators=100, max_depth=100, criterion="squared_error", max_features=1, random_state=42)
+        sklearn_reg.fit(self.X_train, self.y_train)
+        sklearn_y_pred = sklearn_reg.predict(self.X_test)
 
-        self.assertLessEqual(mae_custom, 60, f"Mean Absolute Error should be lower, got {mae_custom:.2f}")
+        mae_custom = np.mean(abs(y_pred - self.y_test))  # Mean Absolute Error (custom)
+        mae_sklearn = np.mean(abs(sklearn_y_pred - self.y_test))
+        abs_error = np.abs(mae_custom - mae_sklearn)
+
+        print(f"Custom Random Forest Regressor MAE: {mae_custom:.4f}")
+        print(f"Sklearn Random Forest Regressor MAE: {mae_sklearn:.4f}")
+        print(f"Absolute Error: {abs_error:.4f}")
+
+        self.assertLessEqual(abs_error, 10.0, f"MAE mismatch too high got {mae_custom:.4f} and {mae_sklearn:.4f} for base")
 
 
 if __name__ == '__main__':

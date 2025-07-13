@@ -1,6 +1,6 @@
 import unittest
 from src.supervised_learning.linear_regression import LinearRegression
-from tests.test_data import get_regression_data
+from src.data.data_generator import get_regression_data
 import numpy as np
 
 

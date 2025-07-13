@@ -2,7 +2,7 @@ import unittest
 from src.supervised_learning.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.neighbors import KNeighborsClassifier as SklearnKneighborsClassifier, KNeighborsRegressor as SklearnKNeighborsRegressor
 from sklearn.metrics import accuracy_score
-from tests.test_data import get_classification_data, get_regression_data
+from src.data.data_generator import get_classification_data, get_regression_data
 import numpy as np
 
 

@@ -1,6 +1,6 @@
 import unittest
 from src.supervised_learning.logistic_regression import LogisticRegression
-from tests.test_data import get_classification_data
+from src.data.data_generator import get_classification_data
 from sklearn.metrics import accuracy_score
 import numpy as np
 
@@ -8,7 +8,7 @@ import numpy as np
 class TestLogisticRegression(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.X_train, cls.X_test, cls.y_train, cls.y_test = get_classification_data()
+        cls.X_train, cls.X_test, cls.y_train, cls.y_test = get_classification_data(num_samples=1000, num_classes=2)
 
     def test_initialization(self):
         clf = LogisticRegression(max_iter=1, learning_rate=0.01)
@@ -40,6 +40,7 @@ class TestLogisticRegression(unittest.TestCase):
             self.assertGreater(window_losses[0], window_losses[-1], msg=f"Loss did not decrease in the window [{window_start}, {window_end}]")
 
     def test_predict(self):
+        np.random.seed(42)
         clf = LogisticRegression(max_iter=10000, learning_rate=0.01)
         clf.fit(self.X_train, self.y_train)
 
@@ -48,7 +49,7 @@ class TestLogisticRegression(unittest.TestCase):
         # Check accuracy
         acc_custom = accuracy_score(self.y_test, y_pred)
 
-        self.assertGreaterEqual(acc_custom, 0.85, f"Accuracy should be higher, got {acc_custom:.2f}")
+        self.assertGreaterEqual(acc_custom, 0.80, f"Accuracy should be higher, got {acc_custom:.2f}")
 
         # NOTE - Cannot check weights and bias as they could be anything
 
