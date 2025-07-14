@@ -69,16 +69,20 @@ class DecisionTree:
         selected_features = np.random.choice(num_features, num_selected_features, replace=False)
 
         for feature in selected_features:
-            thresholds = np.unique(X[:, feature])
+            feature_values = X[:, feature]
+            thresholds = np.percentile(feature_values, np.linspace(0, 100, num=10))
 
             for threshold in thresholds:
-                left_mask = X[:, feature] <= threshold
-                right_mask = ~left_mask
+                left_indices = np.where(feature_values <= threshold)[0]
+                right_indices = np.where(feature_values > threshold)[0]
 
-                if np.sum(left_mask) == 0 or np.sum(right_mask) == 0:
-                    continue  # Skip invalid splits
+                if len(left_indices) == 0 or len(right_indices) == 0:
+                    continue
 
-                metric = self._split_metric(y[left_mask], y[right_mask])
+                left_y = y[left_indices]
+                right_y = y[right_indices]
+
+                metric = self._split_metric(left_y, right_y)
                 if metric < best_metric:
                     best_metric, best_feature, best_threshold = metric, feature, threshold
 

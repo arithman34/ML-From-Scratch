@@ -69,13 +69,9 @@ class TestRandomForestRegressor(unittest.TestCase):
         sklearn_reg.fit(self.X_train, self.y_train)
         sklearn_y_pred = sklearn_reg.predict(self.X_test)
 
-        mae_custom = np.mean(abs(y_pred - self.y_test))  # Mean Absolute Error (custom)
+        mae_custom = np.mean(abs(y_pred - self.y_test))
         mae_sklearn = np.mean(abs(sklearn_y_pred - self.y_test))
         abs_error = np.abs(mae_custom - mae_sklearn)
-
-        print(f"Custom Random Forest Regressor MAE: {mae_custom:.4f}")
-        print(f"Sklearn Random Forest Regressor MAE: {mae_sklearn:.4f}")
-        print(f"Absolute Error: {abs_error:.4f}")
 
         self.assertLessEqual(abs_error, 10.0, f"MAE mismatch too high got {mae_custom:.4f} and {mae_sklearn:.4f} for base")
 
