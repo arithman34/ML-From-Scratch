@@ -77,3 +77,6 @@ class KMeans:
 
     def predict(self, X):
         return self.find_closest_centroids(X)
+    
+
+# Implement DBSCAN
