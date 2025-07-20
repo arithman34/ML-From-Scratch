@@ -55,6 +55,8 @@ ML-From-Scratch/
 ├── tests/                      # Unit tests for components
 ├── LICENSE                     # Project license
 ├── README.md                   # Project overview and documentation
+|── requirements.txt            # Python package dependencies
+└── setup.py                    # Setup script for installation
 ```
 
 # 🔭 Future Work
