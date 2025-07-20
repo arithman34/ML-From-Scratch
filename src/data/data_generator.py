@@ -25,10 +25,6 @@ def get_classification_data(num_samples=1000, num_features=10, num_classes=2, n_
     return train_test_split(X, y, test_size=0.2, random_state=random_state, stratify=y)
 
 
-def get_regression_data(num_samples=1000, num_features=10, n_informative=10, noise=10.0, random_state=None):
-    return train_test_split(X, y, test_size=0.2, random_state=random_state, stratify=y)
-
-
 def get_regression_data(num_samples=10000, num_features=10, n_informative=10, noise=10.0, random_state=None):
     # Generate synthetic regression data
     X, y = make_regression(
