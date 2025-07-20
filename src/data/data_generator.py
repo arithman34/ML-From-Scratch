@@ -1,4 +1,4 @@
-from sklearn.datasets import make_classification, make_regression, make_blobs
+from sklearn.datasets import make_classification, make_regression, make_blobs, make_moons
 from sklearn.model_selection import train_test_split
 
 
@@ -47,3 +47,10 @@ def get_clustering_data(num_samples=1000, num_features=2, centers=3, cluster_std
     )
     
     return train_test_split(X, y, test_size=0.2, random_state=random_state, stratify=y)
+
+
+def get_moon_data(num_samples=1000, noise=0.1, random_state=None):
+    # Generate synthetic moon-shaped data
+    X, y = make_moons(n_samples=num_samples, noise=noise, random_state=random_state)
+    
+    return train_test_split(X, y, test_size=0.2, random_state=random_state)
