@@ -58,40 +58,40 @@ class Tensor:
     @property
     def T(self) -> "Tensor":
         """Return the transpose of the tensor."""
-        from deep_learning import functional as F
+        from src.deep_learning import functional as F
         return F.transpose(self)
     
     def __add__(self, other: "Tensor") -> "Tensor":
         """Add another tensor to this tensor."""
-        from deep_learning import functional as F
+        from src.deep_learning import functional as F
         return F.add(self, other)
     
     def __sub__(self, other: "Tensor") -> "Tensor":
         """Subtract another tensor from this tensor."""
-        from deep_learning import functional as F
+        from src.deep_learning import functional as F
         return F.sub(self, other)
     
     def __neg__(self) -> "Tensor":
         """Negate this tensor."""
-        from deep_learning import functional as F
+        from src.deep_learning import functional as F
         return F.neg(self)
     
     def __mul__(self, other: "Tensor") -> "Tensor":
         """Multiply this tensor by another tensor element-wise."""
-        from deep_learning import functional as F
+        from src.deep_learning import functional as F
         return F.mul(self, other)
     
     def __truediv__(self, other: "Tensor") -> "Tensor":
         """Divide this tensor by another tensor element-wise."""
-        from deep_learning import functional as F
+        from src.deep_learning import functional as F
         return F.div(self, other)
     
     def __matmul__(self, other: "Tensor") -> "Tensor":
         """Matrix multiply this tensor with another tensor."""
-        from deep_learning import functional as F
+        from src.deep_learning import functional as F
         return F.matmul(self, other)
     
     def __pow__(self, power: Number) -> "Tensor":
         """Raise this tensor to a power."""
-        from deep_learning import functional as F
+        from src.deep_learning import functional as F
         return F.pow(self, power)

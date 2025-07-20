@@ -4,9 +4,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as torch_F
 
-from deep_learning.backend import EPSILON
-from deep_learning.tensor import Tensor
-from deep_learning import functional as F
+from src.deep_learning.backend import EPSILON
+from src.deep_learning.tensor import Tensor
+from src.deep_learning import functional as F
 
 
 class TestTensor(unittest.TestCase):

@@ -5,12 +5,12 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.utils.data as data
 
-from deep_learning.tensor import Tensor
-from deep_learning.module import Module, Sequential, Linear, ReLU, Dropout, Sigmoid
-from deep_learning.dataset import Dataset, DataLoader
-from deep_learning.optimizers import SGD
-from deep_learning.loss import BCELoss
-from data.data_generator import get_classification_data
+from src.deep_learning.tensor import Tensor
+from src.deep_learning.module import Module, Sequential, Linear, ReLU, Dropout, Sigmoid
+from src.deep_learning.dataset import Dataset, DataLoader
+from src.deep_learning.optimizers import SGD
+from src.deep_learning.loss import BCELoss
+from src.data.data_generator import get_classification_data
 
 
 class BinaryClassifier(Module):

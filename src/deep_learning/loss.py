@@ -1,5 +1,5 @@
-from deep_learning.tensor import Tensor
-from deep_learning import functional as F
+from src.deep_learning.tensor import Tensor
+from src.deep_learning import functional as F
 
 
 class Loss:

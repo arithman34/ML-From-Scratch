@@ -2,15 +2,15 @@ import numpy as np
 from typing import Optional, Union, Tuple
 import numpy.typing as npt
 
-from deep_learning.backend import EPSILON
-from deep_learning.utils import correlate2d, convolve2d
+from src.deep_learning.backend import EPSILON
+from src.deep_learning.utils import correlate2d, convolve2d
 
 Number = Union[int, float]
 
 
 def ensure_tensor(obj):
     """Ensure that the input is a Tensor object, raises TypeError if not."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
     if not isinstance(obj, Tensor):
         raise TypeError(f"Expected a Tensor, got {type(obj)} instead.")
     return obj
@@ -37,7 +37,7 @@ def unbroadcast(grad: npt.NDArray, shape: Tuple[int, ...]) -> npt.NDArray:
 # Arithmetic operations
 def add(input_a, input_b):
     """Add two tensors element-wise."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input_a, input_b = ensure_tensor(input_a), ensure_tensor(input_b)
     out = Tensor(input_a.data + input_b.data, requires_grad=input_a.requires_grad or input_b.requires_grad, dtype=input_a.data.dtype)
@@ -58,7 +58,7 @@ def add(input_a, input_b):
 
 def sub(input_a, input_b):
     """Subtract two tensors element-wise."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input_a, input_b = ensure_tensor(input_a), ensure_tensor(input_b)
     out = Tensor(input_a.data - input_b.data, requires_grad=input_a.requires_grad or input_b.requires_grad, dtype=input_a.data.dtype)
@@ -78,7 +78,7 @@ def sub(input_a, input_b):
 
 def neg(input):
     """Negate the tensor."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     out = Tensor(-input.data, requires_grad=input.requires_grad)
@@ -95,7 +95,7 @@ def neg(input):
 
 def mul(input_a, input_b):
     """Multiply two tensors element-wise."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input_a, input_b = ensure_tensor(input_a), ensure_tensor(input_b)
     out = Tensor(input_a.data * input_b.data, requires_grad=input_a.requires_grad or input_b.requires_grad, dtype=input_a.data.dtype)
@@ -115,7 +115,7 @@ def mul(input_a, input_b):
 
 def div(input_a, input_b):
     """Divide two tensors element-wise."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input_a, input_b = ensure_tensor(input_a), ensure_tensor(input_b)
     out = Tensor(input_a.data / input_b.data, requires_grad=input_a.requires_grad or input_b.requires_grad, dtype=input_a.data.dtype)
@@ -135,7 +135,7 @@ def div(input_a, input_b):
 
 def matmul(input_a, input_b):
     """Matrix multiplication of two tensors."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input_a, input_b = ensure_tensor(input_a), ensure_tensor(input_b)
     out = Tensor(input_a.data @ input_b.data, requires_grad=input_a.requires_grad or input_b.requires_grad, dtype=input_a.data.dtype)
@@ -155,7 +155,7 @@ def matmul(input_a, input_b):
 
 def pow(input, power: Number):
     """Raise the tensor to a power."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     out = Tensor(input.data ** power, requires_grad=input.requires_grad)
@@ -173,7 +173,7 @@ def pow(input, power: Number):
 # Mathematical functions
 def exp(input):
     """Compute the exponential of the tensor."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     out_data = np.exp(input.data)
@@ -191,7 +191,7 @@ def exp(input):
 
 def log(input):
     """Compute the natural logarithm of the tensor."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     out = Tensor(np.log(input.data), requires_grad=input.requires_grad)
@@ -209,7 +209,7 @@ def log(input):
 # Activation functions
 def linear(input, weight, bias=None):
     """Apply a linear transformation to the input tensor."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     weight = ensure_tensor(weight)
@@ -245,7 +245,7 @@ def linear(input, weight, bias=None):
 
 def relu(input):
     """Apply the ReLU activation function."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     out = Tensor(np.maximum(0, input.data), requires_grad=input.requires_grad)
@@ -262,7 +262,7 @@ def relu(input):
 
 def tanh(input):
     """Apply the Tanh activation function."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     tanh_data = np.tanh(input.data)
@@ -280,7 +280,7 @@ def tanh(input):
 
 def sigmoid(input):
     """Apply the Sigmoid activation function."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     sig = 1 / (1 + np.exp(-input.data))
@@ -298,7 +298,7 @@ def sigmoid(input):
 
 def softmax(input, axis: int = -1):
     """Apply the Softmax activation function along a specified axis."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     exp_a = np.exp(input.data - np.max(input.data, axis=axis, keepdims=True))
@@ -321,7 +321,7 @@ def conv2d(input, weight, bias=None):
     Perform 2D convolution on input with stride=1, dilation=1, padding=0. 
     See: https://www.youtube.com/watch?v=Lakz2MoHy6o&t
     """
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
     # TOOO: Add support for stride, dilation, and padding
     # TODO: This function takes too long to run, optimize it (risk is losing educational benefit)
 
@@ -394,7 +394,7 @@ def conv2d(input, weight, bias=None):
 
 def max_pool2d(input, kernel_size: Tuple[int, int], stride: Optional[Tuple[int, int]] = None):
     """Perform 2D max pooling on input."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     batch_size, in_channels, in_height, in_width = input.data.shape
@@ -458,7 +458,7 @@ def max_pool2d(input, kernel_size: Tuple[int, int], stride: Optional[Tuple[int, 
 # Regularization functions
 def dropout(input, p: float = 0.5, training: bool = True):
     """Apply dropout regularization to the input tensor."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
 
@@ -505,7 +505,7 @@ def dropout(input, p: float = 0.5, training: bool = True):
 
 def batch_norm2d(input, running_mean, running_var, weight = None, bias = None, training: bool = True, momentum: float = 0.1, eps: float = EPSILON):
     """Applies 2D batch normalization on input of shape (N, C, H, W)."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     N, C, H, W = input.data.shape
@@ -584,7 +584,7 @@ def batch_norm2d(input, running_mean, running_var, weight = None, bias = None, t
 # Reduction operations
 def sum(input, axis: Optional[Union[int, Tuple[int, ...]]] = None, keepdims: bool = False):
     """Compute the sum of the tensor along specified axes."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     out = Tensor(input.data.sum(axis=axis, keepdims=keepdims), requires_grad=input.requires_grad)
@@ -602,7 +602,7 @@ def sum(input, axis: Optional[Union[int, Tuple[int, ...]]] = None, keepdims: boo
 
 def mean(input, axis: Optional[Union[int, Tuple[int, ...]]] = None, keepdims: bool = False):
     """Compute the mean of the tensor along specified axes."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     out = Tensor(input.data.mean(axis=axis, keepdims=keepdims), requires_grad=input.requires_grad)
@@ -622,7 +622,7 @@ def mean(input, axis: Optional[Union[int, Tuple[int, ...]]] = None, keepdims: bo
 # Shape manipulation
 def flatten(input, start_dim: int = 0, end_dim: int = -1):
     """Flatten the tensor from start_dim to end_dim."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
     input = ensure_tensor(input)
 
     ndim = input.data.ndim
@@ -659,7 +659,7 @@ def flatten(input, start_dim: int = 0, end_dim: int = -1):
 
 def transpose(input):
     """Transpose the tensor."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     out = Tensor(input.data.T, requires_grad=input.requires_grad)
@@ -676,7 +676,7 @@ def transpose(input):
 
 def clip(input, min_val: Number, max_val: Number):
     """Clip the tensor values to a specified range."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
 
@@ -697,7 +697,7 @@ def clip(input, min_val: Number, max_val: Number):
 
 def squeeze(input, axis: int = -1):
     """Remove dimensions of size 1 from the tensor."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     squeezed_data = input.data.squeeze(axis)
@@ -721,7 +721,7 @@ def squeeze(input, axis: int = -1):
 # Loss functions
 def binary_cross_entropy(input, targets, reduction: str = "mean"):
     """Compute the binary cross-entropy loss with respect to the targets."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     targets = ensure_tensor(targets)
@@ -752,7 +752,7 @@ def binary_cross_entropy(input, targets, reduction: str = "mean"):
 
 def cross_entropy(input, targets, reduction: str = "mean"):
     """Compute the cross-entropy loss with respect to the targets."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
     
     input = ensure_tensor(input)
     targets = ensure_tensor(targets)
@@ -781,7 +781,7 @@ def cross_entropy(input, targets, reduction: str = "mean"):
 
 def mse_loss(input, targets, reduction: str = "mean"):
     """Compute the Mean Squared Error loss with respect to the targets."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     targets = ensure_tensor(targets)
@@ -811,7 +811,7 @@ def mse_loss(input, targets, reduction: str = "mean"):
 
 def mae_loss(input, targets, reduction: str = "mean"):
     """Compute the Mean Absolute Error loss with respect to the targets."""
-    from deep_learning.tensor import Tensor
+    from src.deep_learning.tensor import Tensor
 
     input = ensure_tensor(input)
     targets = ensure_tensor(targets)

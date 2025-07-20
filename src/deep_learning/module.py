@@ -1,9 +1,9 @@
 import numpy as np
 from typing import Any
 
-from deep_learning.tensor import Tensor
-from deep_learning import functional as F
-from deep_learning.backend import EPSILON
+from src.deep_learning.tensor import Tensor
+from src.deep_learning import functional as F
+from src.deep_learning.backend import EPSILON
 
 
 class Module:

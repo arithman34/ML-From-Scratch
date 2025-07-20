@@ -1,7 +1,7 @@
 import unittest
 import numpy as np
 
-from deep_learning.module import *
+from src.deep_learning.module import *
 
 
 class TestModule(unittest.TestCase):
